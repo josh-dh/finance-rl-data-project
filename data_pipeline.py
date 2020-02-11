@@ -7,9 +7,6 @@ from datetime import date
 from datetime import timedelta
 
 import torch
-import transformers
-from pytorch_pretrained_bert import BertTokenizer, BertConfig
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 yf.pdr_override()
 data_file = open("financial-tweets/stockerbot-export.csv")
@@ -99,10 +96,9 @@ def get_prices_for_tweet(tickers, timestamp):
     date = get_date_for_tweet_timestamp(timestamp)
     return get_stock_data(tickers, date[0], date[1], date[2])
 
-#apply nlp tokenizer to tweet text
-#use BERT pre-trained tokenizer to generate dense contextual tokens which work with the pretrained BERT Model
+#apply nlp tokenizer to tweet text, creating sequence for LSTM net
 def process_tweet(tweet_text):
-    return tokenizer.convert_tokens_to_ids(tokenizer.tokenize(tweet_text))
+    
 
 #returns processed and cleaned tweet, and price data for mentioned tickers
 def get_next_tweet():
